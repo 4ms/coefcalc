@@ -56,8 +56,8 @@ enum Scale_Type {
 	GAMMA_SPREAD1,
 	ALPHA_SPREAD1,
 	ALPHA_SPREAD2,
-	DIATONIC,
-	DIATONIC2,
+	DIATONIC_JUST,
+	DIATONIC_EQ,
 	TWELVETONE,
 	OCTAVE_AND_TWO_INTERVALS,
 	MESOPOTAMIAN,
@@ -112,13 +112,13 @@ int main(void){
 	//scale_type=GAMMA_SPREAD1;
 	//scale_type=ALPHA_SPREAD1;
 	//scale_type=ALPHA_SPREAD2;
-	//scale_type=DIATONIC;
-	//scale_type=DIATONIC2;
+	scale_type=DIATONIC_JUST;
+	//scale_type=DIATONIC_EQ;
 	//scale_type=TWELVETONE;
 	//scale_type=OCTAVE_AND_TWO_INTERVALS;
 	//scale_type=MESOPOTAMIAN;
 	//scale_type=SHRUTIS;
-	scale_type=B296;
+	//scale_type=B296;
 	//scale_type=GAMELAN;
 	//scale_type=BOHLEN_PIERCE;
 	//scale_type=VIDEOH; //not used
@@ -416,13 +416,13 @@ int main(void){
 		start_freq=20.60172231; //E0
 		strcpy(scale_name,"indian");
 	}
-	if (scale_type==DIATONIC){
+	if (scale_type==DIATONIC_JUST){
 		rootA=110; //A2
-		strcpy(scale_name,"diatonic");
+		strcpy(scale_name,"diatonic_just");
 	}
-	if (scale_type==DIATONIC2){
+	if (scale_type==DIATONIC_EQ){
 		rootA=110; //A2
-		strcpy(scale_name,"diatonic2");
+		strcpy(scale_name,"diatonic_eq");
 	}
 	if (scale_type==TWELVETONE){
 		start_freq=82.4068892282; //E2
@@ -644,97 +644,88 @@ int main(void){
 						freqs[i]=freqs[i-12]*64.0;
 					}
 				}
-				else if (scale_type==DIATONIC){
+				else if (scale_type==DIATONIC_JUST){
 					if (scale_i==0 || scale_i==1){
-						freq0=rootA; //A major
-						if (scale_i & 1) freq0=freq0 * 4; //go up two octave
-						sprintf(interval_string[scale_i],"diatonic_Amaj_%g",freq0);
+						freq0=rootA; //A 
+						if (scale_i & 1) freq0=freq0 * 8; //go up three octaves
+						sprintf(interval_string[scale_i],"diatonic_just_A_%g",freq0);
 					}
 					if (scale_i==2 || scale_i==3){
-						freq0=rootA*pow(2,1.0/12.0); //A# Major
-						if (scale_i & 1) freq0=freq0 * 4; //go up two octave
-						sprintf(interval_string[scale_i],"diatonic_Bbmaj_%g",freq0);
+						freq0=rootA*pow(2,2.0/12.0); //B
+						if (scale_i & 1) freq0=freq0 * 8; //go up three octaves
+						sprintf(interval_string[scale_i],"diatonic_just_B_%g",freq0);
 					}
 					if (scale_i==4 || scale_i==5){
-						freq0=rootA*pow(2,2.0/12.0); //B Major
-						if (scale_i & 1) freq0=freq0 * 4; //go up two octave
-						sprintf(interval_string[scale_i],"diatonic_Bmaj_%g",freq0);
+						freq0=rootA*pow(2,3.0/12.0); //C
+						if (scale_i & 1) freq0=freq0 * 8; //go up three octaves
+						sprintf(interval_string[scale_i],"diatonic_just_C_%g",freq0);
 					}
 					if (scale_i==6 || scale_i==7){
-						freq0=rootA*pow(2,3.0/12.0); //C Major
-						if (scale_i & 1) freq0=freq0 * 4; //go up two octave
-						sprintf(interval_string[scale_i],"diatonic_Cmaj_%g",freq0);
+						freq0=rootA*pow(2,5.0/12.0); //D
+						if (scale_i & 1) freq0=freq0 * 8; //go up three octaves
+						sprintf(interval_string[scale_i],"diatonic_just_D_%g",freq0);
 					}
 					if (scale_i==8 || scale_i==9){
-						freq0=rootA*pow(2,4.0/12.0); //C# Major
-						if (scale_i & 1) freq0=freq0 * 4; //go up two octave
-						sprintf(interval_string[scale_i],"diatonic_Dbmaj_%g",freq0);
+						freq0=rootA*pow(2,7.0/12.0); //E
+						if (scale_i & 1) freq0=freq0 * 8; //go up three octaves
+						sprintf(interval_string[scale_i],"diatonic_just_E_%g",freq0);
 					}
 					if (scale_i==10 || scale_i==11){
-						freq0=rootA*pow(2,5.0/12.0)*2; //D Major
-						if (scale_i & 1) freq0=freq0 * 4; //go up two octave
-						sprintf(interval_string[scale_i],"diatonic_Dmaj_%g",freq0);
-
+						freq0=rootA*pow(2,8.0/12.0)*2; //F
+						if (scale_i & 1) freq0=freq0 * 8; //go up three octaves
+						sprintf(interval_string[scale_i],"diatonic_just_F_%g",freq0);
 					}
+
 					freqs[0]=freq0;
 					freqs[1]=freq0*(9.0/8.0);
 					freqs[2]=freq0*(5.0/4.0);
-					freqs[3]=freq0*(4.0/3.0);
-					freqs[4]=freq0*(3.0/2.0);
-					freqs[5]=freq0*(5.0/3.0);
-					freqs[6]=freq0*(15.0/8.0);
+					freqs[3]=freq0*(45.0/32.0);
+					freqs[4]=freq0*(8.0/5.0);
+					freqs[5]=freq0*(9.0/5.0);
 
-					for (i=7;i<21;i++){
-						freqs[i]=freqs[i-7]*2.0;
+					for (i=6;i<21;i++){
+						freqs[i]=freqs[i-6]*2.0;
 					}
 
 				}
-				else if (scale_type==DIATONIC2){
+				else if (scale_type==DIATONIC_EQ){
 					if (scale_i==0 || scale_i==1){
-						freq0=rootA*pow(2,6.0/12.0); //C# major
-						if (scale_i & 1) freq0=freq0 * 4; //go up two octave
-						sprintf(interval_string[scale_i],"diatonic_Dbmaj_%g",freq0);
+						freq0=rootA; //A 
+						if (scale_i & 1) freq0=freq0 * 8; //go up three octaves
+						sprintf(interval_string[scale_i],"diatonic_eq_A_%g",freq0);
 					}
 					if (scale_i==2 || scale_i==3){
-						freq0=rootA*pow(2,7.0/12.0); //E Major
-						if (scale_i & 1) freq0=freq0 * 4; //go up two octave
-						sprintf(interval_string[scale_i],"diatonic_Emaj_%g",freq0);
+						freq0=rootA*pow(2,2.0/12.0); //B
+						if (scale_i & 1) freq0=freq0 * 8; //go up three octaves
+						sprintf(interval_string[scale_i],"diatonic_eq_B_%g",freq0);
 					}
 					if (scale_i==4 || scale_i==5){
-						freq0=rootA*pow(2,8.0/12.0); //F Major
-						if (scale_i & 1) freq0=freq0 * 4; //go up two octave
-						sprintf(interval_string[scale_i],"diatonic_Fmaj_%g",freq0);
+						freq0=rootA*pow(2,3.0/12.0); //C
+						if (scale_i & 1) freq0=freq0 * 8; //go up three octaves
+						sprintf(interval_string[scale_i],"diatonic_eq_C_%g",freq0);
 					}
 					if (scale_i==6 || scale_i==7){
-						freq0=rootA*pow(2,9.0/12.0); //F# Major
-						if (scale_i & 1) freq0=freq0 * 4; //go up two octave
-						sprintf(interval_string[scale_i],"diatonic_Gbmaj_%g",freq0);
+						freq0=rootA*pow(2,5.0/12.0); //D
+						if (scale_i & 1) freq0=freq0 * 8; //go up three octaves
+						sprintf(interval_string[scale_i],"diatonic_eq_D_%g",freq0);
 					}
 					if (scale_i==8 || scale_i==9){
-						freq0=rootA*pow(2,10.0/12.0); //G Major
-						if (scale_i & 1) freq0=freq0 * 4; //go up two octave
-						sprintf(interval_string[scale_i],"diatonic_Gmaj_%g",freq0);
+						freq0=rootA*pow(2,7.0/12.0); //E
+						if (scale_i & 1) freq0=freq0 * 8; //go up three octaves
+						sprintf(interval_string[scale_i],"diatonic_eq_E_%g",freq0);
 					}
 					if (scale_i==10 || scale_i==11){
-						freq0=rootA*pow(2,11.0/12.0)*2; //G# Major
-						if (scale_i & 1) freq0=freq0 * 4; //go up two octave
-						sprintf(interval_string[scale_i],"diatonic_Abmaj_%g",freq0);
-
+						freq0=rootA*pow(2,8.0/12.0)*2; //F
+						if (scale_i & 1) freq0=freq0 * 8; //go up three octaves
+						sprintf(interval_string[scale_i],"diatonic_eq_F_%g",freq0);
 					}
-					freqs[0]=freq0;
-					freqs[1]=freq0*(9.0/8.0);
-					freqs[2]=freq0*(5.0/4.0);
-					freqs[3]=freq0*(4.0/3.0);
-					freqs[4]=freq0*(3.0/2.0);
-					freqs[5]=freq0*(5.0/3.0);
-					freqs[6]=freq0*(15.0/8.0);
 
-					for (i=7;i<21;i++){
-						freqs[i]=freqs[i-7]*2.0;
+					freqs[0]=freq0;
+					for (i=1;i<21;i++){
+						freqs[i]=freqs[i-1]*pow(2,2.0/12.0); //Whole step up from previous note
 					}
 
 				}
-
 				else if (scale_type==GAMELAN){
 					if (scale_i<=1){
 						sprintf(interval_string[0],"gamelan_5note1");
